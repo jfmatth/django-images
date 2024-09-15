@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'images.apps.ImagesConfig',
     'django_tables2',
     'crispy_forms',
+    'crispy_bootstrap4',
 ]
 
 MIDDLEWARE = [
