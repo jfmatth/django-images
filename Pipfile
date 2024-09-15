@@ -9,6 +9,7 @@ pillow = "*"
 django-tables2 = "*"
 django-crispy-forms = "*"
 crispy-bootstrap4 = "*"
+whitenoise = "*"
 
 [dev-packages]
 
