@@ -1,48 +1,32 @@
 import logging
 
-from django.shortcuts import render, redirect
-from django.views.decorators.http import require_http_methods
-
-from django.template.response import TemplateResponse
+from django.views.generic.base import TemplateView
+from django.views.generic.edit import CreateView
+from django.urls import reverse_lazy
 
 from images.forms import UploadForm
 from images.models import Image
 from images.tables import ImageTable
 
-
 logger = logging.getLogger(__name__)
 
-#  Thank you CoPilot to help me conver to Aysnc basic for now.
-async def index_view(request):
-    images = Image.objects.all()
-    image_table = ImageTable(images)
-    upload_form = UploadForm()
+class IndexView(TemplateView):
+    template_name = "images/index.html"
 
-# async def my_view(request):
-    context = {
-        'images': images,
-        'image_table': image_table,
-        'upload_form': upload_form,
-    }
-    return TemplateResponse(request, "images/index.html", context)
+    def get_context_data(self, **kwargs):
+        images = Image.objects.all()
 
-    # await return render(request, 'images/index.html', {
-    #     'images': images,
-    #     'image_table': image_table,
-    #     'upload_form': upload_form,
-    # }
-    # )
+        context = super().get_context_data(**kwargs)
+
+        context['images']      = images
+        context['image_table'] = ImageTable(images)
+        context['upload_form'] = UploadForm()
+
+        return context
 
 
-@require_http_methods(["POST"])
-def upload_view(request):
-    upload_form = UploadForm(data=request.POST, files=request.FILES)
+class UploadView(CreateView):
+    form_class = UploadForm
+    http_method_names = ['post']
 
-    if upload_form.is_valid():
-        upload_form.save(commit=True)
-    else:
-        logger.warning("Something went wrong with uploading the file.")
-        logger.warning(request.POST)
-        logger.warning(request.FILES)
-
-    return redirect('images-index')
+    success_url = reverse_lazy("images-index")
