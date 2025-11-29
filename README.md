@@ -25,6 +25,12 @@ A simple image hosting application written in Django.
     ```sh
     uv run manage.py runserver
     ```
-    
- 6. Navigate to [http://localhost:8000/](http://localhost:8000/) in your favorite web browser.
+
+## Running with uvicorn
+uvicorn was added to the requirements and can run the code Asyncronously.
+
+```
+uv run uvicorn core.asgi:application
+```
+
 

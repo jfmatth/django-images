@@ -3,6 +3,8 @@ import logging
 from django.shortcuts import render, redirect
 from django.views.decorators.http import require_http_methods
 
+from django.template.response import TemplateResponse
+
 from images.forms import UploadForm
 from images.models import Image
 from images.tables import ImageTable
@@ -10,17 +12,26 @@ from images.tables import ImageTable
 
 logger = logging.getLogger(__name__)
 
-
-def index_view(request):
+#  Thank you CoPilot to help me conver to Aysnc basic for now.
+async def index_view(request):
     images = Image.objects.all()
     image_table = ImageTable(images)
     upload_form = UploadForm()
 
-    return render(request, 'images/index.html', {
+# async def my_view(request):
+    context = {
         'images': images,
         'image_table': image_table,
         'upload_form': upload_form,
-    })
+    }
+    return TemplateResponse(request, "images/index.html", context)
+
+    # await return render(request, 'images/index.html', {
+    #     'images': images,
+    #     'image_table': image_table,
+    #     'upload_form': upload_form,
+    # }
+    # )
 
 
 @require_http_methods(["POST"])
