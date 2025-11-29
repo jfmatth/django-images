@@ -38,7 +38,9 @@ This project is primarily used to demonstrate how to [deploy](https://github.com
 
 - [Google App Engine](https://testdriven.io/blog/django-gae/)
 - [AWS Elastic Beanstalk](https://testdriven.io/blog/django-elastic-beanstalk/)
+- [AWS ECS (via AWS Copilot)](https://testdriven.io/blog/django-ecs-aws-copilot/)
 - [Render](https://testdriven.io/blog/django-render/)
 - [Fly.io](https://testdriven.io/blog/django-fly/)
 - [Dokku](https://testdriven.io/blog/django-dokku/)
+- [Sevalla](https://testdriven.io/blog/django-sevalla/)
 
