@@ -6,33 +6,34 @@ This project is primarily used to demonstrate how to [deploy](https://github.com
 
 ## Want to use this project?
 
-1. Fork/Clone
+- Fork/Clone
 
-2. Create and activate a virtual environment:
-
+- Create and activate a virtual environment:
     ```sh
     $ python3 -m venv venv && source venv/bin/activate
     ```
 
-3. Install the requirements:
-
+- Install the requirements:
     ```sh
     (venv)$ pip install -r requirements.txt
     ```
 
-4. Apply the migrations:
-
+- Apply the migrations:
     ```sh
     (venv)$ python manage.py migrate
     ```
+- Collectstatic
+    ```sh
+    (venv)$ python manage.py collectstatic --noinput
+    ```
 
-5. Run the server:
+- Run the server:
 
     ```sh
     (venv)$ python manage.py runserver
     ```
     
- 6. Navigate to [http://localhost:8000/](http://localhost:8000/) in your favorite web browser.
+- Navigate to [http://localhost:8000/](http://localhost:8000/) in your favorite web browser.
 
 ## Want to learn how to deploy this project?
 
