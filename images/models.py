@@ -10,5 +10,11 @@ class Image(models.Model):
     class Meta:
         ordering = ['-uploaded_at']
 
+    def save(self, *args, **kwargs):
+        self.file.seek(0)
+        self.filedata = self.file.read()
+
+        return super().save(*args, **kwargs)
+
     def __str__(self):
         return f"{self.title}"
