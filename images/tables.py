@@ -9,3 +9,4 @@ class ImageTable(tables.Table):
     class Meta:
         model = Image
         orderable = False
+        fields = ("title","file", "uploaded_at")
