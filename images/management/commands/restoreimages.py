@@ -1,7 +1,6 @@
 import pathlib
 
-from django.conf import settings
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 
 from images.models import Image
 
@@ -13,10 +12,10 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
 
-        mr = settings.MEDIA_ROOT
-        
         # Go through all images in the DB and make sure they are there, if not, restore from filedata field.
         for i in Image.objects.all():
             f = pathlib.Path(i.file.path)
             if not f.is_file():
-                print(f"MISSING FILE - {f}")
+                print(f"Restoring file{f}")
+                with open(i.file.path, "wb") as fix:
+                    fix.write(i.filedata)
