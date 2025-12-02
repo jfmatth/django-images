@@ -10,7 +10,7 @@
 
     USER root
 
-    # RUN apk --no-cache add uv
+    RUN apk add tzdata
 
     # use /app generic folder
     WORKDIR /app
@@ -25,8 +25,6 @@
     # FROM python:alpine 
     FROM cgr.dev/chainguard/python
 
-    USER nonroot
-
     WORKDIR /app
 
     ENV PYTHONUNBUFFERED=1
@@ -34,6 +32,8 @@
 
     # bring in the virtual environment / packages from the builder directory
     COPY --from=builder /app/.venv /app/.venv
+    # copy timezone data
+    COPY --from=builder /usr/share/zoneinfo /usr/share/zoneinfo
 
     # copy application files to WORKDIR (/app)
     COPY manage.py /app
@@ -42,6 +42,8 @@
     COPY staticfiles /app/staticfiles
 
     EXPOSE 8000
+
+    USER 1000:1000
 
     # run line for app
     ENTRYPOINT [ "uvicorn", "--host", "0.0.0.0", "core.asgi:application"]
