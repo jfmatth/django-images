@@ -15,6 +15,7 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+import dj_database_url
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
@@ -151,6 +152,8 @@ MEDIA_ROOT = BASE_DIR / 'mediafiles'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+###<-------- CUSTOMIZATION ------------>
+
 import os
 
 LOGGING = {
@@ -169,3 +172,11 @@ LOGGING = {
 
 DEBUG = False or 'DEBUG' in os.environ
 ALLOWED_HOSTS = ['*']
+
+DATABASES = {
+    'default': dj_database_url.config(
+        default='sqlite:///' + (BASE_DIR / 'db.sqlite3').as_posix(),
+        conn_max_age=600,
+        conn_health_checks=True,
+    )
+}
