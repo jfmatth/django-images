@@ -25,6 +25,8 @@
     # FROM python:alpine 
     FROM cgr.dev/chainguard/python
 
+    USER nonroot
+
     WORKDIR /app
 
     ENV PYTHONUNBUFFERED=1
@@ -38,7 +40,6 @@
     COPY core/ /app/core
     COPY images/ /app/images
     COPY staticfiles /app/staticfiles
-    COPY sqlite /app/sqlite
 
     EXPOSE 8000
 
