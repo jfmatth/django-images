@@ -160,6 +160,7 @@ tolerations: []
 
 affinity: {}
 
+runMigrations: true
 
 postgresql:
   database: images
