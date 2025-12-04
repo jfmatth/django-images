@@ -180,3 +180,7 @@ DATABASES = {
         conn_health_checks=True,
     )
 }
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://images.3756home.org",
+]

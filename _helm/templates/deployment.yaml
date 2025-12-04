@@ -60,6 +60,17 @@ spec:
           volumeMounts:
             {{- toYaml . | nindent 12 }}
           {{- end }}
+      
+          env:
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.postgresql.secret }}
+                key: password
+
+          - name: DATABASE_URL
+            value: postgres://{{ .Values.postgresql.user }}:$(DB_PASSWORD)@{{ .Values.postgresql.database }}/{{ .Values.postgresql.database }}?sslmode=require
+      
       {{- with .Values.volumes }}
       volumes:
         {{- toYaml . | nindent 8 }}
