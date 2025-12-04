@@ -31,16 +31,18 @@ uv run manage.py runserver
 
 ## Development environments
 
-### Running with uvicorn
-uvicorn was added to the requirements and can run the code Asyncronously.
+### Local(easy) - Running with uvicorn
+uvicorn was added to the requirements and can run the code Asynchronously.
 
 ```
 uv run uvicorn --reload core.asgi:application 
 ```
 
-### Running with Podman
+### Local - Running with Podman
 
 We run in a single pod with two volumes.  One for the DB and the other for mediafiles
+
+Make sure Podman is setup as rootless, the Dockerfiles are set to UID 1000
 
 - Setup environment for postgres and app
 ```
@@ -74,3 +76,25 @@ podman run --pod img --env-file ENV-dev -v media:/app/mediafiles images:v1
 ```
 podman run --pod img --env-file ENV-dev imagesutil:v1 migrate
 ```
+
+### Original README text
+- Fork/Clone
+- Setup python environment with ```uv```
+```sh
+uv sync
+```
+- Database migration for Django
+```sh
+uv run manage.py migrate
+```
+- Collect static files
+```sh
+uv run manage.py collectstatic --noinput
+```
+- Run the server:
+```sh
+uv run manage.py runserver
+```
+
+## Production - Kubernetes
+(coming soon)
