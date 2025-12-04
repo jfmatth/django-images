@@ -1,0 +1,19 @@
+{{- if .Values.runMigrations }}
+
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{ .Release.Name }}-migrate"
+  annotations:
+    "helm.sh/hook": pre-upgrade
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: migrate
+          image: "{{ .Values.image.repository }}-utility:{{ .Values.image.tag }}"
+          args["migrate", "--noinput"]
+
+{{- end }}
