@@ -2,6 +2,9 @@
 
 A simple image hosting application written in Django.
 
+## Versions
+v2024.12.04.0 - Add Trusted Origins, somehow it worked last night though?
+
 ## Want to use this project?
 
 - Fork/Clone
