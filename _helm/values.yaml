@@ -162,8 +162,8 @@ affinity: {}
 
 
 postgresql:
-  database: images
+  database: imagesdb
   replicas: 1
   size: "2Gi"
   user: django
-  secret: django.images
+  secret: django.imagesdb
