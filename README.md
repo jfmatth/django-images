@@ -77,24 +77,5 @@ podman run --pod img --env-file ENV-dev -v media:/app/mediafiles images:v1
 podman run --pod img --env-file ENV-dev imagesutil:v1 migrate
 ```
 
-### Original README text
-- Fork/Clone
-- Setup python environment with ```uv```
-```sh
-uv sync
-```
-- Database migration for Django
-```sh
-uv run manage.py migrate
-```
-- Collect static files
-```sh
-uv run manage.py collectstatic --noinput
-```
-- Run the server:
-```sh
-uv run manage.py runserver
-```
-
 ## Production - Kubernetes
 (coming soon)
