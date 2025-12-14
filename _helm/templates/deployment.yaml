@@ -71,6 +71,13 @@ spec:
           - name: DATABASE_URL
             value: postgres://{{ .Values.postgresql.user }}:$(DB_PASSWORD)@{{ .Values.postgresql.database }}/{{ .Values.postgresql.database }}?sslmode=require
       
+          - name: DD_ENV
+            value: "production"
+          - name: DD_SERVICE
+            value: "django-images"
+          - name: "DD_VERSION"
+            value: "1.0"
+
       {{- with .Values.volumes }}
       volumes:
         {{- toYaml . | nindent 8 }}

@@ -46,4 +46,4 @@
     USER 1000:1000
 
     # run line for app
-    ENTRYPOINT [ "uvicorn", "--host", "0.0.0.0", "core.asgi:application"]
+    ENTRYPOINT [ "ddtrace-run", "uvicorn", "--host", "0.0.0.0", "core.asgi:application"]
