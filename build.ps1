@@ -33,9 +33,9 @@ Write-Host "Using version tag: $version"
 # Step 2: Build the main image from Dockerfile
 Write-Host "Building main image..."
 podman build `
-    --quiet `
     --file Dockerfile `
     --tag "$($imageName):$version" `
+    --tag "$($ImageName):latest" `
     .
 
 # Step 3: Build the utility image from Dockerfile-utility
@@ -44,6 +44,7 @@ podman build `
     --quiet `
     --file Dockerfile-utility `
     --tag "$imageName-utility:$version" `
+    --tag "$($ImageName):latest" `
     .
 
 if ($Push) {
