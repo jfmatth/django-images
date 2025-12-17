@@ -78,4 +78,12 @@ podman run --pod img --env-file ENV-dev imagesutil:v1 migrate
 ```
 
 ## Production - Kubernetes
+
+Set the ```runMigrations``` flag in values.yaml
+
+Helm install
+```
+helm install images .\_helm -e runMigrations=true
+```
+
 (coming soon)

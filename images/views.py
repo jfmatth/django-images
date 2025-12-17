@@ -7,12 +7,17 @@ from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy
 from django.http import StreamingHttpResponse, Http404
 from django.views import View
+from django.http import JsonResponse
 
 from images.forms import UploadForm
 from images.models import Image
 from images.tables import ImageTable
 
 logger = logging.getLogger(__name__)
+
+
+def health_check(request):
+    return JsonResponse({"status": "ok"})
 
 class IndexView(TemplateView):
     template_name = "images/index.html"
@@ -31,6 +36,20 @@ class IndexView(TemplateView):
 class UploadView(CreateView):
     form_class = UploadForm
     http_method_names = ['post']
+
+    def form_valid(self, form):
+        print("form_valid")
+        # Create instance but don’t commit yet
+        obj = form.save(commit=False)
+
+        # Read raw bytes from uploaded file
+        uploaded_file = self.request.FILES["image_upload"]
+        obj.filedata = uploaded_file.read()
+
+        # Save final object
+        obj.save()
+
+        return super().form_valid(form)
 
     success_url = reverse_lazy("images-index")
 

@@ -16,8 +16,6 @@ Including another URLconf
 # from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
-from django.http import HttpResponse
-
 
 from django.views.static import serve
 from django.urls import re_path
@@ -27,8 +25,6 @@ from core import settings
 urlpatterns = [
     path('', include('images.urls')),
     path('admin/', admin.site.urls),
-    path("health/live/", lambda request: HttpResponse(status=200)),
-    path("health/ready/", lambda request: HttpResponse(status=200)),
 
 ]
 

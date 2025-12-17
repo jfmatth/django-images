@@ -184,3 +184,4 @@ DATABASES = {
 CSRF_TRUSTED_ORIGINS = [
     "https://images.3756home.org",
 ]
+
