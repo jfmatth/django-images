@@ -11,7 +11,7 @@ image:
   # This sets the pull policy for images.
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "v2025.12.02.1"
+  tag: "v2025.12.16.0"
 
 # This is for the secrets for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
 imagePullSecrets: []
@@ -36,7 +36,11 @@ serviceAccount:
 podAnnotations: {}
 # This is for setting Kubernetes Labels to a Pod.
 # For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
-podLabels: {}
+podLabels:
+    tags.datadoghq.com/env: "envDev"
+    tags.datadoghq.com/service: "serviceImages"
+    tags.datadoghq.com/version: "versionNew" 
+
 
 podSecurityContext: {}
   # fsGroup: 2000
@@ -146,10 +150,19 @@ livenessProbe:
   httpGet:
     path: /health/live/
     port: http
+  initialDelaySeconds: 10   # wait 30s before first check
+  periodSeconds: 30         # check every 10s
+  timeoutSeconds: 2
+  failureThreshold: 3
 readinessProbe:
   httpGet:
     path: /health/ready/
     port: http
+  initialDelaySeconds: 10   # wait 30s before first check
+  periodSeconds: 30         # check every 10s
+  timeoutSeconds: 2
+  failureThreshold: 3
+
 
 # This section is for setting up autoscaling more information can be found here: https://kubernetes.io/docs/concepts/workloads/autoscaling/
 autoscaling:
@@ -190,7 +203,8 @@ tolerations: []
 
 affinity: {}
 
-runMigrations: true
+runMigrations: false
+djangoDebug: false
 
 postgresql:
   database: imagesdb
