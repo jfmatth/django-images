@@ -44,13 +44,13 @@ We run in a single pod with two volumes.  One for the DB and the other for media
 
 Make sure Podman is setup as rootless, the Dockerfiles are set to UID 1000
 
-- Setup environment for postgres and app
+#### Setup environment for postgres and app
 ```
 podman pod create -p 8000:8000 img
 podman volume create img
 podman volume create media
 ```
-- Run postgres
+#### Run postgres
 ```
 podman run -d `
 --name images-db `
@@ -59,22 +59,32 @@ podman run -d `
 -v img:/var/lib/postgresql/data/ `
 postgres:17
 ```
-- Build our images
+#### Build our images
 
-The application and a django utility
+The build script will pickup the VERSION as the tag. 
+
+```
+.\build.ps1 ghcr.io/jfmatth/django-images
+```
+There is an optional --push flag to push to github.
+```
+.\build.ps1 ghcr.io/jfmatth/django-images --push
+```
+
+<!-- The application and a django utility
 ```
 podman build -f .\Dockerfile -t images:v1
 podman build -f .\Dockerfile-utility -t imagesutil:v1
+``` -->
+
+#### Run the application, make sure it's in our pod ```img```
+```
+podman run --pod img --env-file ENV-dev -v media:/app/mediafiles ghcr.io/jfmatth/django-images
 ```
 
-- Run the application, make sure it's in our pod ```img```
+#### Run some Django utility functions with the other container, like migrate to setup the DB tables
 ```
-podman run --pod img --env-file ENV-dev -v media:/app/mediafiles images:v1
-```
-
-- Run some Django utility functions with the other container, like migrate to setup the DB tables
-```
-podman run --pod img --env-file ENV-dev imagesutil:v1 migrate
+podman run --pod img --env-file ENV-dev ghcr.io/jfmatth/django-images-utility migrate
 ```
 
 ## Production - Kubernetes
