@@ -3,7 +3,7 @@
 # Declare variables to be passed into your templates.
 
 # This will set the replicaset count more information can be found here: https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/
-replicaCount: 1
+replicaCount: 2
 
 # This sets the container image more information can be found here: https://kubernetes.io/docs/concepts/containers/images/
 image:
@@ -11,7 +11,7 @@ image:
   # This sets the pull policy for images.
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "v2025.12.02.1"
+  tag: "v2025.12.16.0"
 
 # This is for the secrets for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
 imagePullSecrets: []
@@ -36,7 +36,11 @@ serviceAccount:
 podAnnotations: {}
 # This is for setting Kubernetes Labels to a Pod.
 # For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
-podLabels: {}
+podLabels:
+    tags.datadoghq.com/env: "envDev"
+    tags.datadoghq.com/service: "Images"
+    tags.datadoghq.com/version: "v2025.12.16.0" 
+
 
 podSecurityContext: {}
   # fsGroup: 2000
@@ -129,27 +133,33 @@ httpRoute:
   #     - name: version
   #       value: v2
 
-resources: {}
+resources: 
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
 
 # This is to setup the liveness and readiness probes more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
 livenessProbe:
   httpGet:
     path: /health/live/
     port: http
+  initialDelaySeconds: 2   # wait 30s before first check
+  periodSeconds: 30         # check every 10s
+  timeoutSeconds: 2
+  failureThreshold: 3
 readinessProbe:
   httpGet:
     path: /health/ready/
     port: http
+  initialDelaySeconds: 2   # wait 30s before first check
+  periodSeconds: 30         # check every 10s
+  timeoutSeconds: 2
+  failureThreshold: 3
+
 
 # This section is for setting up autoscaling more information can be found here: https://kubernetes.io/docs/concepts/workloads/autoscaling/
 autoscaling:
@@ -190,7 +200,10 @@ tolerations: []
 
 affinity: {}
 
-runMigrations: true
+migrationRun: false
+migrationSleep: 10s
+
+djangoDebug: false
 
 postgresql:
   database: imagesdb

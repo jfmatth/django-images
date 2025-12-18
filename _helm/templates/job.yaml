@@ -1,4 +1,4 @@
-{{- if .Values.runMigrations }}
+{{- if .Values.migrationRun }}
 
 apiVersion: batch/v1
 kind: Job
@@ -11,6 +11,11 @@ spec:
   template:
     spec:
       restartPolicy: Never
+      initContainers:
+        - name: sleep
+          image: busybox:1.36
+          command: ["sh", "-c", "echo 'Sleeping for {{ .Values.migrationSleep }}'; sleep {{ .Values.migrationSleep }}"]
+
       containers:
         - name: migrate
           image: "{{ .Values.image.repository }}-utility:{{ .Values.image.tag }}"
