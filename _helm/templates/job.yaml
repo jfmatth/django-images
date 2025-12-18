@@ -1,4 +1,4 @@
-{{- if .Values.runMigrations }}
+{{- if .Values.migrationRun }}
 
 apiVersion: batch/v1
 kind: Job
@@ -12,9 +12,9 @@ spec:
     spec:
       restartPolicy: Never
       initContainers:
-        - name: wait-for-it
+        - name: sleep
           image: busybox:1.36
-          command: ["sh", "-c", "echo 'Sleeping for 20s...'; sleep 20"]
+          command: ["sh", "-c", "echo 'Sleeping for {{ .Values.migrationSleep }}'; sleep {{ .Values.migrationSleep }}"]
 
       containers:
         - name: migrate
