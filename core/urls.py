@@ -38,12 +38,12 @@ urlpatterns = [
 
 # try w/o DEBUG
 # v5.0 docs - https://docs.djangoproject.com/en/5.1/ref/views/#serving-files-in-development
-urlpatterns += [
-        re_path(
-            r"^media/(?P<path>.*)$",
-            serve,
-            {
-                "document_root": settings.MEDIA_ROOT,
-            },
-        ),
-    ]
+# urlpatterns += [
+#         re_path(
+#             r"^media/(?P<path>.*)$",
+#             serve,
+#             {
+#                 "document_root": settings.MEDIA_ROOT,
+#             },
+#         ),
+#     ]
