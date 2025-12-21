@@ -44,6 +44,8 @@
     EXPOSE 8000
 
     USER 1000:1000
+    
+    ENV DD_AGENT_HOST=datadog-agent.datadog.svc.cluster.local
 
     # run line for app
-    ENTRYPOINT [ "uvicorn", "--host", "0.0.0.0", "core.asgi:application"]
+    ENTRYPOINT [ "ddtrace-run","uvicorn", "--host", "0.0.0.0", "core.asgi:application"]
