@@ -62,6 +62,9 @@ spec:
           {{- end }}
       
           env:
+          - name: DD_VERSION
+            value: {{ .Values.image.tag }}
+
           {{- if .Values.djangoDebug }}
           - name: DEBUG
             value: debugIsOn
