@@ -11,6 +11,9 @@ param(
     [switch]$Push   # optional flag, defaults to False
 )
 
+if ((podman machine inspect | ConvertFrom-Json).State -ne "Running") {
+    podman machine start
+}
 
 # Ensure script stops on errors
 $ErrorActionPreference = "Stop"
@@ -52,6 +55,5 @@ if ($Push) {
     podman push "$($imageName):$version" 
     podman push "$imageName-utility:$version"
 }
-
 
 Write-Host "✅ Build complete. Images tagged as:"
