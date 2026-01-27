@@ -18,7 +18,7 @@
     # use python venv to bring in any necessary packages
     # RUN python -m venv /app/venv
     COPY pyproject.toml  .
-    RUN uv sync 
+    RUN uv sync --compile-bytecode
 
 ## Phase 2 - execution
 
